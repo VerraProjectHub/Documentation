@@ -51,11 +51,36 @@ html, body {
 
 .nav-logo {
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .app-logo {
   height: 100%;
   cursor: pointer;
+  max-height: 50px;
+  width: auto;
+  object-fit: contain;
+  
+  /* Fallback styling in case image doesn't load */
+  background-color: transparent;
+  border: none;
+}
+
+/* Debug styling - remove this later if needed */
+.app-logo:not([src]),
+.app-logo[src=""] {
+  background-color: #17729A;
+  width: 120px;
+  height: 40px;
+}
+
+.app-logo:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
 }
 
 .nav-links {
@@ -140,6 +165,119 @@ section {
 section:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Standard cards styling */
+.standard-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.standard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.standard-card:hover::before {
+  left: 100%;
+}
+
+.standard-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.standard-logo {
+  transition: all 0.3s ease;
+}
+
+.standard-card:hover .standard-logo {
+  transform: scale(1.1) rotate(5deg);
+  opacity: 0.5 !important;
+}
+
+/* DMRV cards styling */
+.dmrv-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.dmrv-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.dmrv-card:hover::before {
+  left: 100%;
+}
+
+.dmrv-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.dmrv-icon {
+  transition: all 0.3s ease;
+}
+
+.dmrv-card:hover .dmrv-icon {
+  transform: scale(1.1) rotate(5deg);
+  opacity: 0.5 !important;
+}
+
+/* Tool cards styling */
+.tool-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tool-icon {
+  transition: all 0.3s ease;
+}
+
+.tool-card:hover .tool-icon i {
+  transform: scale(1.1);
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 768px) {
+  .standard-card {
+    padding: 1.5rem !important;
+  }
+  
+  .standard-logo {
+    position: absolute !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+  
+  .standard-logo img,
+  .standard-logo i {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 40px !important;
+  }
 }
 
 /* Footer styles matching ProjectHub */

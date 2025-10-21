@@ -29,17 +29,23 @@
         <div class="header-wrapper">
             <div class="nav-logo">
                 <img class="app-logo" 
-                     src="https://verra.org/wp-content/themes/verra/images/verra-logo-color.svg" 
+                     src="assets/images/logo.png" 
                      alt="Verra Logo"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
                      onclick="window.open('https://verra.org', '_blank')" />
+                <div class="logo-fallback" style="display: none; color: #17729A; font-weight: bold; font-size: 1.5rem; cursor: pointer;" 
+                     onclick="window.open('https://verra.org', '_blank')">
+                    VERRA
+                </div>
             </div>
             <div class="header-links-wrapper">
                 <ul class="nav-links">
                     <li class="nav-item" onclick="scrollToSection('overview')">Overview</li>
                     <li class="nav-item" onclick="scrollToSection('getting-started')">Getting Started</li>
                     <li class="nav-item" onclick="scrollToSection('standards')">Standards</li>
+                    <li class="nav-item" onclick="scrollToSection('dmrv')">DMRV</li>
+                    <li class="nav-item" onclick="scrollToSection('tools-forms')">Tools & Forms</li>
                     <li class="nav-item" onclick="scrollToSection('resources')">Resources</li>
-                    <li class="nav-item" onclick="window.open('https://verra.org/project/vcs-program/', '_blank')">VCS Program</li>
                 </ul>
             </div>
         </div>
@@ -66,19 +72,47 @@
                     Platform Overview
                 </h2>
                 <p>
-                    The Verra Project Hub is a comprehensive platform designed to streamline the management and tracking of carbon market projects. 
-                    It provides tools and resources for project developers, validators, and stakeholders to efficiently navigate the complexities 
-                    of carbon credit standards including VCS (Verified Carbon Standard), CCB (Climate, Community & Biodiversity), and PWRP (Plastic Waste Reduction Program).
+                    The Verra Project Hub (the project hub) is an online platform that serves as a comprehensive tool for listing, registering, and managing projects in Verra's standards programs.
                 </p>
-                <div style="background: #f4f5fb; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #17729A; margin: 1rem 0;">
-                    <h3 style="margin-top: 0; color: #17729A;">Key Features</h3>
-                    <ul style="margin-bottom: 0;">
-                        <li>Project registration and management</li>
-                        <li>Document submission and tracking</li>
-                        <li>Validation and verification workflows</li>
-                        <li>Credit issuance monitoring</li>
-                        <li>Stakeholder collaboration tools</li>
+                <p>
+                    The project hub enables the submission and review of documentation for project validation, registration, monitoring, verification, and related processes. Project proponents can use it to track the progress of project review processes, milestones, and deliverables, and to complete a number of actions related to these processes.
+                </p>
+                
+                <div style="background: #f4f5fb; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #17729A; margin: 1.5rem 0;">
+                    <h3 style="margin-top: 0; color: #17729A;">How the Project Hub Supports Stakeholders</h3>
+                    <ul style="margin-bottom: 0; color: #666;">
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: #17729A;">Enhances transparency and accessibility</strong> of project information.
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: #17729A;">Facilitates communication and collaboration</strong> among proponents, validation/verification bodies (VVBs), and other stakeholders.
+                        </li>
+                        <li style="margin-bottom: 0;">
+                            <strong style="color: #17729A;">Streamlines the processes</strong> necessary to complete registration, validation, and verification of projects.
+                        </li>
                     </ul>
+                </div>
+                
+                <div style="background: #f4f5fb; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #17729A; margin: 1rem 0;">
+                    <h3 style="margin-top: 0; color: #17729A;">Key Capabilities</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong style="color: #17729A;">Project Management</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Comprehensive project listing, registration, and lifecycle management</span>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong style="color: #17729A;">Document Workflow</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Streamlined submission and review processes for all project documentation</span>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong style="color: #17729A;">Progress Tracking</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Real-time monitoring of review processes, milestones, and deliverables</span>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong style="color: #17729A;">Stakeholder Collaboration</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Enhanced communication tools for proponents, VVBs, and stakeholders</span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -119,27 +153,438 @@
                     Supported Standards
                 </h2>
                 <p>
-                    The Project Hub supports multiple Verra standards, each designed to address specific aspects of climate action and sustainable development.
+                    The Project Hub supports multiple Verra standards, each designed to address specific aspects of climate action and sustainable development. 
+                    Our comprehensive platform manages projects across various environmental and social impact frameworks.
                 </p>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-                    <div style="background: linear-gradient(135deg, #17729A, #00aec6); color: white; padding: 1.5rem; border-radius: 8px;">
-                        <h3 style="margin-top: 0; color: white;">VCS Program</h3>
-                        <p style="color: white; margin-bottom: 0;">
-                            The Verified Carbon Standard program for greenhouse gas emission reduction and removal projects.
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <!-- VCS Program -->
+                    <div class="standard-card" style="background: linear-gradient(135deg, #17729A, #00aec6); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="standard-logo" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <img src="assets/images/VcsPD.png" alt="VCS Logo" style="width: 60px; height: 60px; object-fit: contain; filter: brightness(0) invert(1);">
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Verified Carbon Standard (VCS)</h3>
+                        <p style="color: white; margin-bottom: 0; font-size: 0.95rem;">
+                            The Verified Carbon Standard program for greenhouse gas emission reduction and removal projects worldwide.
                         </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">
+                            <span>✓ Carbon Credits</span> • <span>✓ Global Coverage</span> • <span>✓ Multiple Methodologies</span>
+                        </div>
                     </div>
-                    <div style="background: linear-gradient(135deg, #2A3A57, #17729A); color: white; padding: 1.5rem; border-radius: 8px;">
-                        <h3 style="margin-top: 0; color: white;">CCB Standards</h3>
-                        <p style="color: white; margin-bottom: 0;">
+
+                    <!-- CCB Standards -->
+                    <div class="standard-card" style="background: linear-gradient(135deg, #2A3A57, #17729A); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="standard-logo" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <img src="assets/images/CcbPD.png" alt="CCB Logo" style="width: 60px; height: 60px; object-fit: contain; filter: brightness(0) invert(1);">
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">CCB Standards</h3>
+                        <p style="color: white; margin-bottom: 0; font-size: 0.95rem;">
                             Climate, Community & Biodiversity standards for projects with multiple environmental and social benefits.
                         </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">
+                            <span>✓ Triple Impact</span> • <span>✓ Community Focus</span> • <span>✓ Biodiversity</span>
+                        </div>
                     </div>
-                    <div style="background: linear-gradient(135deg, #43a047, #00aec6); color: white; padding: 1.5rem; border-radius: 8px;">
-                        <h3 style="margin-top: 0; color: white;">PWRP</h3>
-                        <p style="color: white; margin-bottom: 0;">
-                            Plastic Waste Reduction Program addressing the global plastic pollution crisis.
+
+                    <!-- Plastic Waste Reduction -->
+                    <div class="standard-card" style="background: linear-gradient(135deg, #43a047, #00aec6); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="standard-logo" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <img src="assets/images/PlasticPD.png" alt="Plastic Logo" style="width: 60px; height: 60px; object-fit: contain; filter: brightness(0) invert(1);">
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Plastic Waste Reduction</h3>
+                        <p style="color: white; margin-bottom: 0; font-size: 0.95rem;">
+                            Plastic Waste Reduction Program addressing the global plastic pollution crisis through innovative solutions.
                         </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">
+                            <span>✓ Waste Reduction</span> • <span>✓ Ocean Protection</span> • <span>✓ Circular Economy</span>
+                        </div>
+                    </div>
+
+                    <!-- SD VISta Standard -->
+                    <div class="standard-card" style="background: linear-gradient(135deg, #ff8f00, #17729A); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden; cursor: pointer;" 
+                         onclick="window.open('https://verra.org/programs/sd-verified-impact-standard/', '_blank')">
+                        <div class="standard-logo" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <img src="assets/images/SDVistaPD.png" alt="SD VISta Logo" style="width: 60px; height: 60px; object-fit: contain; filter: brightness(0) invert(1);">
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">SD VISta Standard</h3>
+                        <p style="color: white; margin-bottom: 0; font-size: 0.95rem;">
+                            Sustainable Development Verified Impact Standard for measuring and reporting sustainable development impacts.
+                        </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">
+                            <span>✓ SDG Alignment</span> • <span>✓ Impact Measurement</span> • <span>✓ Development Goals</span>
+                        </div>
+                    </div>
+
+                    <!-- Nature Framework -->
+                    <div class="standard-card" style="background: linear-gradient(135deg, #4caf50, #2e7d32); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="standard-logo" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <i class="material-icons" style="font-size: 60px; color: rgba(255,255,255,0.3);">nature</i>
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Nature Framework</h3>
+                        <p style="color: white; margin-bottom: 0; font-size: 0.95rem;">
+                            Comprehensive framework for nature-based solutions and biodiversity conservation projects.
+                        </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">
+                            <span>✓ Nature-based Solutions</span> • <span>✓ Biodiversity</span> • <span>✓ Ecosystem Services</span>
+                        </div>
+                    </div>
+
+                    <!-- Scope 3 Standard -->
+                    <div class="standard-card" style="background: linear-gradient(135deg, #7b1fa2, #17729A); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="standard-logo" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <i class="material-icons" style="font-size: 60px; color: rgba(255,255,255,0.3);">timeline</i>
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Scope 3 Standard</h3>
+                        <p style="color: white; margin-bottom: 0; font-size: 0.95rem;">
+                            Value chain emissions measurement and reduction framework for comprehensive carbon accounting.
+                        </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.9;">
+                            <span>✓ Value Chain</span> • <span>✓ Indirect Emissions</span> • <span>✓ Supply Chain</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Standards Summary -->
+                <div style="background: #f4f5fb; padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid #17729A;">
+                    <h3 style="margin-top: 0; color: #17729A;">
+                        <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">assessment</i>
+                        Standards Integration
+                    </h3>
+                    <p style="margin-bottom: 1rem;">
+                        The Project Hub provides seamless integration across all supported standards, enabling:
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Cross-Standard Projects:</strong><br>
+                            <span style="color: #7a7a9d;">Manage projects across multiple standards simultaneously</span>
+                        </div>
+                        <div>
+                            <strong>Unified Reporting:</strong><br>
+                            <span style="color: #7a7a9d;">Consolidated dashboards and impact tracking</span>
+                        </div>
+                        <div>
+                            <strong>Streamlined Validation:</strong><br>
+                            <span style="color: #7a7a9d;">Integrated workflows for all standard requirements</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DMRV Section -->
+            <section id="dmrv" class="fade-in-up">
+                <h2>
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">sensors</i>
+                    Digital MRV (DMRV)
+                </h2>
+                <p>
+                    Digital Monitoring, Reporting, and Verification represents the next generation of carbon project oversight, 
+                    leveraging advanced technologies to enhance transparency, accuracy, and efficiency in environmental monitoring.
+                </p>
+                
+                <!-- DMRV Features Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <!-- Digital Monitoring -->
+                    <div class="dmrv-card" style="background: linear-gradient(135deg, #1565c0, #0277bd); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="dmrv-icon" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <i class="material-icons" style="font-size: 60px; color: rgba(255,255,255,0.3);">monitor</i>
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Digital Monitoring</h3>
+                        <p style="color: white; margin-bottom: 1rem; font-size: 0.95rem;">
+                            Real-time data collection using IoT sensors, satellite imagery, and automated monitoring systems.
+                        </p>
+                        <ul style="color: white; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                            <li>Satellite monitoring & remote sensing</li>
+                            <li>IoT sensor networks</li>
+                            <li>Automated data collection</li>
+                            <li>Continuous baseline tracking</li>
+                        </ul>
+                    </div>
+
+                    <!-- Digital Reporting -->
+                    <div class="dmrv-card" style="background: linear-gradient(135deg, #2e7d32, #388e3c); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="dmrv-icon" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <i class="material-icons" style="font-size: 60px; color: rgba(255,255,255,0.3);">assessment</i>
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Digital Reporting</h3>
+                        <p style="color: white; margin-bottom: 1rem; font-size: 0.95rem;">
+                            Automated report generation with standardized data formats and blockchain-secured audit trails.
+                        </p>
+                        <ul style="color: white; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                            <li>Automated report generation</li>
+                            <li>Standardized data formats</li>
+                            <li>Real-time dashboard analytics</li>
+                            <li>Blockchain audit trails</li>
+                        </ul>
+                    </div>
+
+                    <!-- Digital Verification -->
+                    <div class="dmrv-card" style="background: linear-gradient(135deg, #7b1fa2, #8e24aa); color: white; padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div class="dmrv-icon" style="position: absolute; top: 1rem; right: 1rem; opacity: 0.3;">
+                            <i class="material-icons" style="font-size: 60px; color: rgba(255,255,255,0.3);">verified_user</i>
+                        </div>
+                        <h3 style="margin-top: 0; color: white; font-size: 1.3rem;">Digital Verification</h3>
+                        <p style="color: white; margin-bottom: 1rem; font-size: 0.95rem;">
+                            AI-powered verification processes with machine learning algorithms for anomaly detection and validation.
+                        </p>
+                        <ul style="color: white; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                            <li>AI-powered verification</li>
+                            <li>Machine learning validation</li>
+                            <li>Anomaly detection algorithms</li>
+                            <li>Automated compliance checking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DMRV Benefits -->
+                <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid #1565c0;">
+                    <h3 style="margin-top: 0; color: #1565c0;">
+                        <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">trending_up</i>
+                        DMRV Advantages
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #1565c0; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">speed</i>
+                                Enhanced Efficiency
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Reduce verification time from months to days through automated processes and real-time monitoring.
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">security</i>
+                                Improved Accuracy
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Minimize human error and increase data reliability through automated collection and validation.
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #7b1fa2; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">visibility</i>
+                                Greater Transparency
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Provide stakeholders with real-time access to project data and verification status.
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #d32f2f; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">monetization_on</i>
+                                Cost Reduction
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Lower operational costs through automation and reduced need for on-site verification visits.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DMRV Implementation -->
+                <div style="background: #f4f5fb; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+                    <h3 style="margin-top: 0; color: #17729A;">
+                        <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">integration_instructions</i>
+                        Implementation in Project Hub
+                    </h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        The Project Hub integrates DMRV capabilities across all supported standards, enabling:
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <div style="background: white; padding: 1rem; border-radius: 8px; flex: 1; min-width: 200px; border-left: 3px solid #1565c0;">
+                            <strong style="color: #1565c0;">Technology Integration</strong><br>
+                            <span style="color: #7a7a9d; font-size: 0.9rem;">Seamless integration with existing monitoring infrastructure</span>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 8px; flex: 1; min-width: 200px; border-left: 3px solid #2e7d32;">
+                            <strong style="color: #2e7d32;">Data Standardization</strong><br>
+                            <span style="color: #7a7a9d; font-size: 0.9rem;">Unified data formats across all project types and standards</span>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 8px; flex: 1; min-width: 200px; border-left: 3px solid #7b1fa2;">
+                            <strong style="color: #7b1fa2;">Verification Workflow</strong><br>
+                            <span style="color: #7a7a9d; font-size: 0.9rem;">Automated verification processes with human oversight</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tools and Forms Section -->
+            <section id="tools-forms" class="fade-in-up">
+                <h2>
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">build</i>
+                    Tools and Forms in the Verra Project Hub
+                </h2>
+                <p>
+                    The Project Hub provides a comprehensive suite of digital tools and forms to streamline project management, 
+                    risk assessment, and administrative processes across all Verra standards and methodologies.
+                </p>
+                
+                <!-- Tools Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    
+                    <!-- AFOLU Non-Permanence Risk Tool -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #4caf50; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #4caf50; margin-right: 1rem;">forest</i>
+                            <h3 style="margin: 0; color: #2e7d32; font-size: 1.2rem;">AFOLU Non-Permanence Risk Tool</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            For assessing non-permanence risk in Agriculture, Forestry, and Other Land Use projects.
+                        </p>
+                        <div style="background: #f1f8e9; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #2e7d32;">Key Features:</strong><br>
+                            <span style="color: #666;">• Risk factor calculations • Buffer pool assessments • Project longevity analysis</span>
+                        </div>
+                    </div>
+
+                    <!-- GCS Non-Permanence Risk Tool -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #2196f3; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #2196f3; margin-right: 1rem;">layers</i>
+                            <h3 style="margin: 0; color: #1976d2; font-size: 1.2rem;">GCS Non-Permanence Risk Tool</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            For assessing non-permanence risk in Geological Carbon Storage (GCS) projects.
+                        </p>
+                        <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #1976d2;">Key Features:</strong><br>
+                            <span style="color: #666;">• Geological risk assessment • Storage security evaluation • Long-term monitoring</span>
+                        </div>
+                    </div>
+
+                    <!-- Exemption Request Form -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #ff9800; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #ff9800; margin-right: 1rem;">assignment_late</i>
+                            <h3 style="margin: 0; color: #f57c00; font-size: 1.2rem;">Exemption Request Form</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            For submitting exemption requests related to deadlines, VVB site visits, rotation, or changes.
+                        </p>
+                        <div style="background: #fff3e0; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #f57c00;">Available For:</strong><br>
+                            <span style="color: #666;">• Deadline extensions • VVB site visit exemptions • Rotation requests</span>
+                        </div>
+                    </div>
+
+                    <!-- Requantification Notification Form -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #9c27b0; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #9c27b0; margin-right: 1rem;">calculate</i>
+                            <h3 style="margin: 0; color: #7b1fa2; font-size: 1.2rem;">Requantification Notification Form</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            For initiating methodology changes and requantification of GHG reductions/removals.
+                        </p>
+                        <div style="background: #f3e5f5; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #7b1fa2;">Process Support:</strong><br>
+                            <span style="color: #666;">• Methodology updates • GHG recalculations • Impact reassessment</span>
+                        </div>
+                    </div>
+
+                    <!-- Deeds of Representation -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #607d8b; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #607d8b; margin-right: 1rem;">description</i>
+                            <h3 style="margin: 0; color: #455a64; font-size: 1.2rem;">Deeds of Representation</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            Digitalized documents for representation and signature requests.
+                        </p>
+                        <div style="background: #eceff1; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #455a64;">Digital Features:</strong><br>
+                            <span style="color: #666;">• Electronic signatures • Document tracking • Legal representation</span>
+                        </div>
+                    </div>
+
+                    <!-- CCP Label Request Form -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #e91e63; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #e91e63; margin-right: 1rem;">label</i>
+                            <h3 style="margin: 0; color: #c2185b; font-size: 1.2rem;">CCP Label Request Form</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            For applying ICVCM CCP labels to Verified Carbon Units (VCUs).
+                        </p>
+                        <div style="background: #fce4ec; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #c2185b;">CCP Compliance:</strong><br>
+                            <span style="color: #666;">• ICVCM standards • VCU labeling • Quality certification</span>
+                        </div>
+                    </div>
+
+                    <!-- Public Consultation Tool -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #00bcd4; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #00bcd4; margin-right: 1rem;">forum</i>
+                            <h3 style="margin: 0; color: #0097a7; font-size: 1.2rem;">Public Consultation Tool</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            For gathering public feedback on Verra's programs and methodology updates.
+                        </p>
+                        <div style="background: #e0f2f1; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #0097a7;">Engagement Features:</strong><br>
+                            <span style="color: #666;">• Stakeholder feedback • Public comments • Methodology reviews</span>
+                        </div>
+                    </div>
+
+                    <!-- Notice of Validation and Verification Services Form -->
+                    <div class="tool-card" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #795548; transition: all 0.3s ease;">
+                        <div class="tool-icon" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="material-icons" style="font-size: 2.5rem; color: #795548; margin-right: 1rem;">verified</i>
+                            <h3 style="margin: 0; color: #5d4037; font-size: 1.2rem;">Notice of V&V Services Form</h3>
+                        </div>
+                        <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">
+                            Used by VVBs to notify Verra of upcoming site visits for Performance Observation audits.
+                        </p>
+                        <div style="background: #efebe9; padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+                            <strong style="color: #5d4037;">VVB Support:</strong><br>
+                            <span style="color: #666;">• Site visit scheduling • Performance audits • VVB coordination</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Integration Summary -->
+                <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid #17729A;">
+                    <h3 style="margin-top: 0; color: #17729A;">
+                        <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">integration_instructions</i>
+                        Integrated Tool Suite Benefits
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #17729A; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">speed</i>
+                                Streamlined Workflows
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                All tools are integrated within the Project Hub, eliminating the need for external applications and reducing administrative overhead.
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">sync</i>
+                                Real-time Updates
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Forms and tools automatically sync with project data, ensuring accuracy and reducing manual data entry errors.
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #7b1fa2; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">security</i>
+                                Secure Processing
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                All tools feature enterprise-grade security with encrypted data transmission and secure storage protocols.
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #d32f2f; margin: 0 0 0.5rem 0; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem; font-size: 1.2rem;">analytics</i>
+                                Automated Calculations
+                            </h4>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">
+                                Built-in calculation engines provide instant results for risk assessments and quantification processes.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
