@@ -1,39 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Site</title>
+    <title>Verra Project Hub - Documentation</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="Verra Project Hub Documentation - Comprehensive guide for carbon market projects and standards">
+    <meta name="keywords" content="Verra, carbon credits, VCS, CCB, PWRP, climate action, sustainability">
+    <meta name="author" content="Verra">
 </head>
-<body>
-    <header>
-        <h1>Welcome to My GitHub Pages Site</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<body class="bg-light">
+    <!-- Header Navigation matching ProjectHub -->
+    <nav class="app-navbar">
+        <div class="header-wrapper">
+            <div class="nav-logo">
+                <img class="app-logo" 
+                     src="https://verra.org/wp-content/themes/verra/images/verra-logo-color.svg" 
+                     alt="Verra Logo"
+                     onclick="window.open('https://verra.org', '_blank')" />
+            </div>
+            <div class="header-links-wrapper">
+                <ul class="nav-links">
+                    <li class="nav-item" onclick="scrollToSection('overview')">Overview</li>
+                    <li class="nav-item" onclick="scrollToSection('getting-started')">Getting Started</li>
+                    <li class="nav-item" onclick="scrollToSection('standards')">Standards</li>
+                    <li class="nav-item" onclick="scrollToSection('resources')">Resources</li>
+                    <li class="nav-item" onclick="window.open('https://verra.org/project/vcs-program/', '_blank')">VCS Program</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
     <main>
-        <section id="about">
-            <h2>About</h2>
-            <p>This is a brief introduction to my GitHub Pages site.</p>
-        </section>
-        <section id="projects">
-            <h2>Projects</h2>
-            <p>Here are some of my projects.</p>
-        </section>
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>You can reach me at myemail@example.com.</p>
-        </section>
+        <div class="public-page-container">
+            <!-- Hero Section -->
+            <section id="hero" class="fade-in-up">
+                <h1>
+                    <i class="material-icons" style="font-size: 3rem; vertical-align: middle; color: #17729A; margin-right: 0.5rem;">hub</i>
+                    Verra Project Hub Documentation
+                </h1>
+                <p style="text-align: center; font-size: 1.2rem; color: #7a7a9d; margin: 2rem 0;">
+                    Your comprehensive guide to navigating carbon market projects, standards, and climate action initiatives through the Verra Project Hub platform.
+                </p>
+            </section>
+
+            <!-- Overview Section -->
+            <section id="overview" class="fade-in-up">
+                <h2>
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">info</i>
+                    Platform Overview
+                </h2>
+                <p>
+                    The Verra Project Hub is a comprehensive platform designed to streamline the management and tracking of carbon market projects. 
+                    It provides tools and resources for project developers, validators, and stakeholders to efficiently navigate the complexities 
+                    of carbon credit standards including VCS (Verified Carbon Standard), CCB (Climate, Community & Biodiversity), and PWRP (Plastic Waste Reduction Program).
+                </p>
+                <div style="background: #f4f5fb; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #17729A; margin: 1rem 0;">
+                    <h3 style="margin-top: 0; color: #17729A;">Key Features</h3>
+                    <ul style="margin-bottom: 0;">
+                        <li>Project registration and management</li>
+                        <li>Document submission and tracking</li>
+                        <li>Validation and verification workflows</li>
+                        <li>Credit issuance monitoring</li>
+                        <li>Stakeholder collaboration tools</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Getting Started Section -->
+            <section id="getting-started" class="fade-in-up">
+                <h2>
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">play_arrow</i>
+                    Getting Started
+                </h2>
+                <p>
+                    Begin your journey with the Verra Project Hub by following these essential steps. Whether you're a new project developer 
+                    or an experienced validator, this guide will help you navigate the platform effectively.
+                </p>
+                
+                <h3>1. Account Setup & Access</h3>
+                <p>
+                    Create your Verra account and configure your profile with the necessary credentials and organizational information. 
+                    Ensure you have the appropriate permissions for your role in the carbon market ecosystem.
+                </p>
+                
+                <h3>2. Project Registration</h3>
+                <p>
+                    Learn how to register new projects, select appropriate methodologies, and submit initial documentation. 
+                    The platform guides you through each step of the registration process with built-in validation checks.
+                </p>
+                
+                <h3>3. Document Management</h3>
+                <p>
+                    Master the document submission system, track review statuses, and respond to validator feedback efficiently. 
+                    The system supports various document types and provides automated notifications for status changes.
+                </p>
+            </section>
+
+            <!-- Standards Section -->
+            <section id="standards" class="fade-in-up">
+                <h2>
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">verified</i>
+                    Supported Standards
+                </h2>
+                <p>
+                    The Project Hub supports multiple Verra standards, each designed to address specific aspects of climate action and sustainable development.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <div style="background: linear-gradient(135deg, #17729A, #00aec6); color: white; padding: 1.5rem; border-radius: 8px;">
+                        <h3 style="margin-top: 0; color: white;">VCS Program</h3>
+                        <p style="color: white; margin-bottom: 0;">
+                            The Verified Carbon Standard program for greenhouse gas emission reduction and removal projects.
+                        </p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #2A3A57, #17729A); color: white; padding: 1.5rem; border-radius: 8px;">
+                        <h3 style="margin-top: 0; color: white;">CCB Standards</h3>
+                        <p style="color: white; margin-bottom: 0;">
+                            Climate, Community & Biodiversity standards for projects with multiple environmental and social benefits.
+                        </p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #43a047, #00aec6); color: white; padding: 1.5rem; border-radius: 8px;">
+                        <h3 style="margin-top: 0; color: white;">PWRP</h3>
+                        <p style="color: white; margin-bottom: 0;">
+                            Plastic Waste Reduction Program addressing the global plastic pollution crisis.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources" class="fade-in-up">
+                <h2>
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">library_books</i>
+                    Additional Resources
+                </h2>
+                <p>
+                    Access comprehensive resources to enhance your understanding and effective use of the Verra Project Hub platform.
+                </p>
+                
+                <div style="background: #f4f5fb; padding: 2rem; border-radius: 8px; margin: 1rem 0;">
+                    <h3 style="margin-top: 0;">Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 0.5rem 0;">
+                            <a href="https://verra.org/project/vcs-program/" target="_blank" style="color: #17729A; text-decoration: none; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem;">open_in_new</i>
+                                VCS Program Guidelines
+                            </a>
+                        </li>
+                        <li style="margin: 0.5rem 0;">
+                            <a href="https://verra.org/methodologies/" target="_blank" style="color: #17729A; text-decoration: none; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem;">open_in_new</i>
+                                Approved Methodologies
+                            </a>
+                        </li>
+                        <li style="margin: 0.5rem 0;">
+                            <a href="https://verra.org/project/ccb-program/" target="_blank" style="color: #17729A; text-decoration: none; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem;">open_in_new</i>
+                                CCB Program Information
+                            </a>
+                        </li>
+                        <li style="margin: 0.5rem 0;">
+                            <a href="https://verra.org/contact/" target="_blank" style="color: #17729A; text-decoration: none; display: flex; align-items: center;">
+                                <i class="material-icons" style="margin-right: 0.5rem;">contact_support</i>
+                                Contact Support
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2023 My GitHub Pages Site</p>
-    </footer>
+
+    <!-- Footer matching ProjectHub -->
+    <div class="footer">
+        <div class="footer-content">
+            <p>&copy; <span id="currentYear"></span> Verra. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://verra.org/contact/" target="_blank">Contact Us</a>
+                <a href="https://verra.org/terms-conditions/" target="_blank">Terms & Conditions</a>
+                <a href="https://verra.org/privacy-policy/" target="_blank">Privacy Policy</a>
+                <a href="https://verra.org/" target="_blank">Verra.org</a>
+                <a href="https://www.youtube.com/playlist?list=PLYme1NjghQQmX7yW7IOqxEeOAkacrpWsU" target="_blank" title="Tutorial Videos">
+                    <i class="material-icons" style="font-size: 16px; vertical-align: middle;">play_circle_filled</i>
+                    Tutorials
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="assets/js/main.js"></script>
+    <script>
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const headerHeight = 80; // Account for fixed header
+                const targetPosition = element.offsetTop - headerHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // Add fade-in animation to sections on scroll
+        function handleScrollAnimations() {
+            const sections = document.querySelectorAll('section');
+            const windowHeight = window.innerHeight;
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const sectionVisible = (sectionTop < windowHeight - 100);
+                
+                if (sectionVisible) {
+                    section.classList.add('fade-in-up');
+                }
+            });
+        }
+        
+        // Initialize animations
+        window.addEventListener('scroll', handleScrollAnimations);
+        window.addEventListener('load', handleScrollAnimations);
+        
+        // Add loading animation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
 </body>
 </html>
