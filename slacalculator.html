@@ -1,0 +1,2247 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verra SLA Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* ProjectHub Color Palette */
+    :root {
+      --primary: #16729a;
+      --primary-light: #00aec6;
+      --secondary: #2A3A57;
+      --success: #43a047;
+      --error: #f44336;
+      --warning: #ff8f00;
+      --white: #ffffff;
+      --light-grey: #E6E6E6;
+      --background: #f3f7f9;
+      --card-background: #ffffff;
+      --text-primary: #27272e;
+      --text-secondary: #7a7a9d;
+      --border-color: #dce0e5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--background);
+      min-height: 100vh;
+      padding: 24px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    /* Page Wrapper */
+    .page-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-background);
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .main-container {
+      background: var(--card-background);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 100%;
+    }
+    
+    .header-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+    }
+
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .verra-logo {
+      width: 120px;
+      height: auto;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .verra-logo svg {
+      width: 100%;
+      height: auto;
+      max-height: 40px;
+    }
+
+    .header-text {
+      flex: 1;
+      text-align: center;
+    }
+
+    .header-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.5px;
+    }
+    
+    .header-subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+      font-weight: 300;
+      margin: 0;
+    }
+    
+    .form-container {
+      padding: 32px 24px;
+    }
+    
+    .form-section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title .material-icons {
+      color: var(--primary);
+      font-size: 20px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    
+    .form-label { 
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-size: 14px;
+      letter-spacing: 0.1px;
+    }
+    
+      .form-select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        background-color: white;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+      }
+
+      /* Multiselect Dropdown Styles */
+      .multiselect-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .multiselect-container.active {
+        z-index: 999999;
+        position: relative;
+      }
+
+      /* Backdrop for preventing click-through */
+      .multiselect-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: 999990;
+        display: none;
+        pointer-events: auto;
+      }
+
+      .multiselect-backdrop.active {
+        display: block;
+      }
+
+      .multiselect-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        background-color: white;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+        min-height: 20px;
+        position: relative;
+        z-index: 999995;
+      }
+
+      .multiselect-display:hover {
+        border-color: #0077b6;
+      }
+
+      .multiselect-display.active {
+        border-color: #0077b6;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .placeholder {
+        color: #666;
+        flex-grow: 1;
+      }
+
+      .selected-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        flex-grow: 1;
+      }
+
+      .selected-tag {
+        background-color: #e3f2fd;
+        color: #0077b6;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .selected-tag .remove {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 1;
+      }
+
+      .selected-tag .remove:hover {
+        color: #d32f2f;
+      }
+
+      .multiselect-arrow {
+        color: #666;
+        transition: transform 0.3s ease;
+        user-select: none;
+        font-size: 20px;
+      }
+
+      .multiselect-arrow.rotated {
+        transform: rotate(180deg);
+      }
+
+      .multiselect-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        border: 1px solid #0077b6;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        z-index: 999998;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        opacity: 1 !important;
+      }
+
+      .multiselect-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        background: #ffffff;
+        z-index: -1;
+        border-radius: 8px;
+      }
+
+      .multiselect-dropdown.active {
+        display: block;
+      }
+
+      .multiselect-option {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+      }
+
+      .multiselect-option:hover {
+        background-color: #f8f9fa !important;
+        background: #f8f9fa !important;
+      }
+
+      .multiselect-option:last-child {
+        border-bottom: none;
+      }
+
+      .multiselect-option input[type="checkbox"] {
+        margin-right: 8px;
+        cursor: pointer;
+      }
+
+      .multiselect-option label {
+        flex-grow: 1;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      /* Searchable Select Styles */
+      .searchable-select-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .searchable-input {
+        width: 100%;
+        padding: 8px 40px 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        background-color: white;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+      }
+
+      .searchable-arrow {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.3s ease;
+      }
+
+      .searchable-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 300px;
+        display: none;
+        overflow: hidden;
+      }
+
+      .searchable-dropdown.active {
+        display: block;
+      }
+
+      .searchable-search-box {
+        padding: 10px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .search-input:focus {
+        border-color: #0077b6;
+      }
+
+      .searchable-options {
+        max-height: 240px;
+        overflow-y: auto;
+      }
+
+      .searchable-option {
+        padding: 10px 12px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        font-size: 14px;
+        border-bottom: 1px solid #f5f5f5;
+      }
+
+      .searchable-option:hover {
+        background-color: #f8f9fa;
+      }
+
+      .searchable-option:last-child {
+        border-bottom: none;
+      }
+
+      .searchable-option.selected {
+        background-color: #e3f2fd;
+        color: #0077b6;
+      }
+
+      .searchable-option.hidden {
+        display: none;
+      }
+
+      .searchable-arrow.rotated {
+        transform: translateY(-50%) rotate(180deg);
+      }
+
+      /* Methodology Modal Styles */
+      .methodology-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .methodology-modal.active {
+        display: flex;
+      }
+
+      .methodology-modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+      }
+
+      .methodology-modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 600px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: modalSlideIn 0.3s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9) translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .methodology-modal-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .methodology-modal-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .methodology-modal-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        transition: all 0.2s ease;
+      }
+
+      .methodology-modal-close:hover {
+        background: var(--light-grey);
+        color: var(--text-primary);
+      }
+
+      .methodology-modal-body {
+        padding: 24px;
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .methodology-search-box {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .methodology-search-input {
+        width: 100%;
+        padding: 12px 44px 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .methodology-search-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(22, 114, 154, 0.1);
+      }
+
+      .methodology-search-box .material-icons {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        font-size: 20px;
+      }
+
+      .methodology-options-list {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        max-height: 300px;
+      }
+
+      .methodology-option-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid #f5f5f5;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .methodology-option-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .methodology-option-item:last-child {
+        border-bottom: none;
+      }
+
+      .methodology-option-item.hidden {
+        display: none;
+      }
+
+      .methodology-option-item input[type="checkbox"] {
+        margin-right: 12px;
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+
+      .methodology-option-item label {
+        flex-grow: 1;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .methodology-modal-footer {
+        padding: 20px 24px;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+      }
+
+      .methodology-btn-secondary {
+        padding: 10px 20px;
+        border: 1px solid var(--border-color);
+        background: white;
+        color: var(--text-primary);
+        border-radius: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .methodology-btn-secondary:hover {
+        background: var(--light-grey);
+      }
+
+      .methodology-btn-primary {
+        padding: 10px 20px;
+        border: none;
+        background: var(--primary);
+        color: white;
+        border-radius: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .methodology-btn-primary:hover {
+        background: var(--secondary);
+      }
+
+      /* Methodology Selector Button Styles */
+      .methodology-selector {
+        width: 100%;
+      }
+
+      .methodology-selector-btn {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: white;
+        color: var(--text-primary);
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .methodology-selector-btn:hover {
+        border-color: var(--primary);
+        background: #fafafa;
+      }
+
+      .methodology-selected-count {
+        flex-grow: 1;
+        color: var(--text-secondary);
+      }
+
+      .methodology-selected-count.has-selection {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .methodology-selected-tags {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .methodology-tag {
+        background-color: #e3f2fd;
+        color: var(--primary);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .methodology-tag .remove {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 1;
+      }
+
+      .methodology-tag .remove:hover {
+        color: #d32f2f;
+      }
+
+      /* Field Error Styles */
+      .field-error {
+        color: var(--error);
+        font-size: 12px;
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .field-error .material-icons {
+        font-size: 14px;
+      }
+
+      .form-group.has-error .form-select,
+      .form-group.has-error .methodology-selector-btn {
+        border-color: var(--error);
+        background-color: rgba(244, 67, 54, 0.05);
+      }    .form-select:hover {
+      border-color: var(--primary-light);
+      background-color: #fafafa;
+    }
+    
+    .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(22, 114, 154, 0.1);
+    }
+    
+    .calculate-button {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+      animation: fadeInUp 0.6s ease-out 0.6s forwards;
+      opacity: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .calculate-button .material-icons {
+      font-size: 20px;
+    }
+    
+    .calculate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(22, 114, 154, 0.3);
+    }
+    
+    .calculate-button:active {
+      transform: translateY(0);
+    }
+
+    .calculate-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Radio Button Styles */
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 8px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    .radio-option:hover {
+      color: var(--primary);
+    }
+
+    .radio-input {
+      display: none;
+    }
+
+    .radio-custom {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      position: relative;
+      transition: all 0.2s ease;
+      background: var(--white);
+    }
+
+    .radio-input:checked + .radio-custom {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .radio-input:checked + .radio-custom::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--white);
+    }
+
+    .radio-option:hover .radio-custom {
+      border-color: var(--primary);
+    }
+
+    .radio-label {
+      font-weight: 500;
+      user-select: none;
+    }
+
+    /* Checkbox Styles */
+    .checkbox-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 8px;
+    }
+
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    .checkbox-option:hover {
+      color: var(--primary);
+    }
+
+    .checkbox-input {
+      display: none;
+    }
+
+    .checkbox-custom {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.2s ease;
+      background: var(--white);
+    }
+
+    .checkbox-input:checked + .checkbox-custom {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .checkbox-input:checked + .checkbox-custom::after {
+      content: '✓';
+      position: absolute;
+      top: -1px;
+      left: 3px;
+      color: var(--white);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .checkbox-option:hover .checkbox-custom {
+      border-color: var(--primary);
+    }
+
+    .checkbox-label {
+      font-weight: 500;
+      user-select: none;
+    }
+    
+    .result-section { 
+      margin-top: 32px;
+      padding: 24px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-left: 4px solid var(--primary);
+      animation: slideIn 0.5s ease-out;
+      border: 1px solid rgba(22, 114, 154, 0.1);
+    }
+    
+    .result-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .result-title .material-icons {
+      font-size: 24px;
+      color: var(--success);
+    }
+    
+    .result-grid {
+      display: grid;
+      gap: 16px;
+    }
+    
+    .result-item {
+      padding: 16px;
+      background: var(--white);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .result-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .result-value {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .sla-days {
+      font-size: 28px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-high {
+      background: rgba(244, 67, 54, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(244, 67, 54, 0.2);
+    }
+    
+    .badge-medium {
+      background: rgba(255, 143, 0, 0.1);
+      color: var(--warning);
+      border: 1px solid rgba(255, 143, 0, 0.2);
+    }
+    
+    .badge-low {
+      background: rgba(67, 160, 71, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(67, 160, 71, 0.2);
+    }
+
+    .no-result {
+      text-align: center;
+      padding: 24px;
+      background: rgba(244, 67, 54, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(244, 67, 54, 0.1);
+    }
+
+    .no-result-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--error);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .no-result-message {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .loading-state {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--white);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      .header-section {
+        padding: 24px 16px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .header-text {
+        text-align: center;
+      }
+
+      .header-title {
+        font-size: 24px;
+      }
+
+      .verra-logo {
+        width: 80px;
+      }
+
+      .form-container {
+        padding: 24px 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .sla-days {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 20px;
+      }
+
+      .verra-logo {
+        width: 50px;
+      }
+
+      .form-container {
+        padding: 16px;
+      }
+
+      .result-section {
+        padding: 16px;
+      }
+  </style>
+</head>
+<body>
+  <!-- Methodology Selection Modal -->
+  <div class="methodology-modal" id="methodologyModal">
+    <div class="methodology-modal-overlay"></div>
+    <div class="methodology-modal-content">
+      <div class="methodology-modal-header">
+        <h3>Select Methodologies</h3>
+        <button class="methodology-modal-close" onclick="closeMethodologyModal()">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      <div class="methodology-modal-body">
+        <div class="methodology-search-box">
+          <input type="text" id="methodologySearch" placeholder="Search methodologies..." class="methodology-search-input">
+          <span class="material-icons">search</span>
+        </div>
+        <div class="methodology-options-list" id="methodologyOptionsList">
+          <div class="methodology-option-item" data-value="VM0001">
+            <input type="checkbox" id="modal_methodology_VM0001">
+            <label for="modal_methodology_VM0001">VM0001 - Methodology for Afforestation/Reforestation Projects (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0003">
+            <input type="checkbox" id="modal_methodology_VM0003">
+            <label for="modal_methodology_VM0003">VM0003 - Methodology for Tidal Wetland and Seagrass Restoration (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0006">
+            <input type="checkbox" id="modal_methodology_VM0006">
+            <label for="modal_methodology_VM0006">VM0006 - Methodology for Carbon Credits from Manure Management Systems (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0007">
+            <input type="checkbox" id="modal_methodology_VM0007">
+            <label for="modal_methodology_VM0007">VM0007 - REDD+ Methodology Framework (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0008">
+            <input type="checkbox" id="modal_methodology_VM0008">
+            <label for="modal_methodology_VM0008">VM0008 - CO2 Capture and Storage in Depleted Oil and Gas Reservoirs (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0009">
+            <input type="checkbox" id="modal_methodology_VM0009">
+            <label for="modal_methodology_VM0009">VM0009 - Methodology for Avoided Ecosystem Conversion (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0010">
+            <input type="checkbox" id="modal_methodology_VM0010">
+            <label for="modal_methodology_VM0010">VM0010 - Methodology for Improved Forest Management (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0011">
+            <input type="checkbox" id="modal_methodology_VM0011">
+            <label for="modal_methodology_VM0011">VM0011 - Methodology for Calculating GHG Benefits from Preventing Planned Degradation (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0015">
+            <input type="checkbox" id="modal_methodology_VM0015">
+            <label for="modal_methodology_VM0015">VM0015 - Methodology for Avoided Unplanned Deforestation (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0017">
+            <input type="checkbox" id="modal_methodology_VM0017">
+            <label for="modal_methodology_VM0017">VM0017 - Adoption of Sustainable Agricultural Land Management (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0018">
+            <input type="checkbox" id="modal_methodology_VM0018">
+            <label for="modal_methodology_VM0018">VM0018 - Energy Efficiency and Fuel Switching Measures in Thermal Applications (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0021">
+            <input type="checkbox" id="modal_methodology_VM0021">
+            <label for="modal_methodology_VM0021">VM0021 - Soil Carbon Quantification Methodology (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0024">
+            <input type="checkbox" id="modal_methodology_VM0024">
+            <label for="modal_methodology_VM0024">VM0024 - Methodology for Livestock (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0026">
+            <input type="checkbox" id="modal_methodology_VM0026">
+            <label for="modal_methodology_VM0026">VM0026 - Methodology for Sustainable Grassland Management (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0030">
+            <input type="checkbox" id="modal_methodology_VM0030">
+            <label for="modal_methodology_VM0030">VM0030 - Improved Cook Stoves and Clean Household Energy Technologies (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0032">
+            <input type="checkbox" id="modal_methodology_VM0032">
+            <label for="modal_methodology_VM0032">VM0032 - Methodology for Adoption of Sustainable Grasslands (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0042">
+            <input type="checkbox" id="modal_methodology_VM0042">
+            <label for="modal_methodology_VM0042">VM0042 - Methodology for Improved Forest Management (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AM0001">
+            <input type="checkbox" id="modal_methodology_AM0001">
+            <label for="modal_methodology_AM0001">AM0001 - Incineration of HFC 23 Waste Streams (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AM0025">
+            <input type="checkbox" id="modal_methodology_AM0025">
+            <label for="modal_methodology_AM0025">AM0025 - Avoided Emissions from Organic Waste through Alternative Waste Treatment Processes (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0001">
+            <input type="checkbox" id="modal_methodology_ACM0001">
+            <label for="modal_methodology_ACM0001">ACM0001 - Flaring or Use of Landfill Gas (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0002">
+            <input type="checkbox" id="modal_methodology_ACM0002">
+            <label for="modal_methodology_ACM0002">ACM0002 - Grid-connected Electricity Generation from Renewable Sources (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AMS0001">
+            <input type="checkbox" id="modal_methodology_AMS0001">
+            <label for="modal_methodology_AMS0001">AMS0001 - Solar/Wind/Hydro Power Generation (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AMS0002">
+            <input type="checkbox" id="modal_methodology_AMS0002">
+            <label for="modal_methodology_AMS0002">AMS0002 - Supply Side Energy Efficiency Improvements (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="PM0001">
+            <input type="checkbox" id="modal_methodology_PM0001">
+            <label for="modal_methodology_PM0001">PM0001 - Plastic Waste Collection and Recycling (Plastic)</label>
+          </div>
+          <div class="methodology-option-item" data-value="PM0002">
+            <input type="checkbox" id="modal_methodology_PM0002">
+            <label for="modal_methodology_PM0002">PM0002 - Ocean Plastic Collection and Processing (Plastic)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AR-AM0001">
+            <input type="checkbox" id="modal_methodology_AR-AM0001">
+            <label for="modal_methodology_AR-AM0001">AR-AM0001 - Afforestation and Reforestation of Degraded Land (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="REDD-AM0001">
+            <input type="checkbox" id="modal_methodology_REDD-AM0001">
+            <label for="modal_methodology_REDD-AM0001">REDD-AM0001 - REDD+ Activities in Mosaic Landscapes (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0008">
+            <input type="checkbox" id="modal_methodology_ACM0008">
+            <label for="modal_methodology_ACM0008">ACM0008 - Abatement of coal mine methane (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0010">
+            <input type="checkbox" id="modal_methodology_ACM0010">
+            <label for="modal_methodology_ACM0010">ACM0010 - GHG Emission Reductions from Manure Management Systems (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0016">
+            <input type="checkbox" id="modal_methodology_ACM0016">
+            <label for="modal_methodology_ACM0016">ACM0016 - Mass Rapid Transit Projects (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0017">
+            <input type="checkbox" id="modal_methodology_ACM0017">
+            <label for="modal_methodology_ACM0017">ACM0017 - Production of Biofuel (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="ACM0022">
+            <input type="checkbox" id="modal_methodology_ACM0022">
+            <label for="modal_methodology_ACM0022">ACM0022 - Alternative Waste Treatment Processes (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AM0073">
+            <input type="checkbox" id="modal_methodology_AM0073">
+            <label for="modal_methodology_AM0073">AM0073 - GHG Emission Reductions through Multi-site Manure Collection and Treatment in a Central Plant (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AM0080">
+            <input type="checkbox" id="modal_methodology_AM0080">
+            <label for="modal_methodology_AM0080">AM0080 - Mitigation of greenhouse gases emissions with treatment of wastewater in aerobic wastewater treatment plants (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AMS III.C">
+            <input type="checkbox" id="modal_methodology_AMS_III.C">
+            <label for="modal_methodology_AMS_III.C">AMS III.C - Emission Reductions through Partial Substitution of Fossil Fuels in Transport Applications (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AMS III.D">
+            <input type="checkbox" id="modal_methodology_AMS_III.D">
+            <label for="modal_methodology_AMS_III.D">AMS III.D - Methane recovery in animal manure management systems (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AMS III.S">
+            <input type="checkbox" id="modal_methodology_AMS_III.S">
+            <label for="modal_methodology_AMS_III.S">AMS III.S - Introduction of Low-emission Vehicles (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="AMS III-Y">
+            <input type="checkbox" id="modal_methodology_AMS_III-Y">
+            <label for="modal_methodology_AMS_III-Y">AMS III-Y - Methane Avoidance through Separation of Solids from Wastewater or Manure Treatment Systems (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0005">
+            <input type="checkbox" id="modal_methodology_VM0005">
+            <label for="modal_methodology_VM0005">VM0005 - Methodology for Conversion of Low-Productive Forest to High-Productive Forest (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0006">
+            <input type="checkbox" id="modal_methodology_VM0006">
+            <label for="modal_methodology_VM0006">VM0006 - Methodology for Carbon Accounting for Mosaic and Landscape-scale REDD Projects (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0038">
+            <input type="checkbox" id="modal_methodology_VM0038">
+            <label for="modal_methodology_VM0038">VM0038 - Methodology for Electric Vehicle Charging Systems (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0041">
+            <input type="checkbox" id="modal_methodology_VM0041">
+            <label for="modal_methodology_VM0041">VM0041 - Methodology for the Reduction of Enteric Methane Emissions from Ruminants through the Use of Feed Ingredients (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0044">
+            <input type="checkbox" id="modal_methodology_VM0044">
+            <label for="modal_methodology_VM0044">VM0044 - Biochar Utilization in Soil and Non-Soil Applications (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0045">
+            <input type="checkbox" id="modal_methodology_VM0045">
+            <label for="modal_methodology_VM0045">VM0045 - Improved Forest Management Using Dynamic Matched Baselines from National Forest Inventories (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0047">
+            <input type="checkbox" id="modal_methodology_VM0047">
+            <label for="modal_methodology_VM0047">VM0047 - Afforestation, Reforestation, and Revegetation (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0048">
+            <input type="checkbox" id="modal_methodology_VM0048">
+            <label for="modal_methodology_VM0048">VM0048 - Reducing Emissions from Deforestation and Forest Degradation (NCS)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0049">
+            <input type="checkbox" id="modal_methodology_VM0049">
+            <label for="modal_methodology_VM0049">VM0049 - Carbon capture and storage (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="SDVM1">
+            <input type="checkbox" id="modal_methodology_SDVM1">
+            <label for="modal_methodology_SDVM1">SDVM1 - Methodology for Time Savings from Improved Cookstoves (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="VM0051">
+            <input type="checkbox" id="modal_methodology_VM0051">
+            <label for="modal_methodology_VM0051">VM0051 - Improved Management in Rice Production Systems (E&I)</label>
+          </div>
+          <div class="methodology-option-item" data-value="SDVM2">
+            <input type="checkbox" id="modal_methodology_SDVM2">
+            <label for="modal_methodology_SDVM2">SDVM2 - Nature Framework (NCS)</label>
+          </div>
+        </div>
+      </div>
+      <div class="methodology-modal-footer">
+        <button class="methodology-btn-secondary" onclick="clearAllMethodologies()">Clear All</button>
+        <button class="methodology-btn-primary" onclick="applyMethodologySelection()">Apply Selection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Page Content -->
+  <div class="page-wrapper">
+    <div class="main-container">
+    <header class="header-section">
+      <div class="header-content">
+        <!-- Verra Logo -->
+        <div class="verra-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="108.988" height="40" viewBox="0 0 108.988 40">
+            <g id="logo" transform="translate(-34 -26)">
+              <g id="logo-white" transform="translate(34 26)">
+                <g id="Group_1" data-name="Group 1" transform="translate(10.922 0.114)">
+                  <path id="Path_1" data-name="Path 1" d="M47.314,30.877a.429.429,0,0,1,.416-.643h2.8a.44.44,0,0,1,.416.265l4.844,11.353h.189l9.877-21.987a.44.44,0,0,1,.416-.265h2.8a.435.435,0,0,1,.416.643L56.472,48.4a.426.426,0,0,1-.416.265h-.265a.426.426,0,0,1-.416-.265Z" transform="translate(-47.262 -19.6)" fill="white"/>
+                  <path id="Path_2" data-name="Path 2" d="M104.3,49.392a.477.477,0,0,1,.492-.492h10.293a.5.5,0,0,1,.492.492v2.081a.477.477,0,0,1-.492.492h-7.493v4.163h6.244a.5.5,0,0,1,.492.492v2.119a.5.5,0,0,1-.492.492h-6.244v4.428h7.493a.5.5,0,0,1,.492.492v2.081a.477.477,0,0,1-.492.492H104.792a.5.5,0,0,1-.492-.492Z" transform="translate(-82.715 -37.812)" fill="white"/>
+                  <path id="Path_3" data-name="Path 3" d="M145.5,49.392a.477.477,0,0,1,.492-.492h7.228a5.491,5.491,0,0,1,5.525,5.449A5.557,5.557,0,0,1,155,59.458l3.482,6.433a.461.461,0,0,1-.416.719h-2.649a.462.462,0,0,1-.416-.227l-3.368-6.7h-2.8v6.471a.5.5,0,0,1-.492.492h-2.346a.5.5,0,0,1-.492-.492Zm7.455,7.569a2.587,2.587,0,0,0,2.5-2.573,2.538,2.538,0,0,0-2.5-2.46H148.83v5.033Z" transform="translate(-108.324 -37.812)" fill="white"/>
+                  <path id="Path_4" data-name="Path 4" d="M191.7,49.392a.477.477,0,0,1,.492-.492h7.228a5.491,5.491,0,0,1,5.525,5.449,5.557,5.557,0,0,1-3.746,5.109l3.482,6.433a.461.461,0,0,1-.416.719h-2.649a.462.462,0,0,1-.416-.227l-3.368-6.7h-2.8v6.471a.5.5,0,0,1-.492.492h-2.346a.5.5,0,0,1-.492-.492Zm7.455,7.569a2.587,2.587,0,0,0,2.5-2.573,2.538,2.538,0,0,0-2.5-2.46H195.03v5.033Z" transform="translate(-137.04 -37.812)" fill="white"/>
+                  <path id="Path_5" data-name="Path 5" d="M232.515,65.594l7.871-17.029a.426.426,0,0,1,.416-.265h.265a.393.393,0,0,1,.416.265l7.8,17.029a.429.429,0,0,1-.416.643h-2.195a.7.7,0,0,1-.719-.492L244.7,63.021h-7.569l-1.249,2.725a.754.754,0,0,1-.719.492h-2.195C232.553,66.238,232.364,65.935,232.515,65.594Zm10.937-5.412-2.535-5.563h-.076l-2.5,5.563Z" transform="translate(-162.378 -37.439)" fill="white"/>
+                </g>
+                <g id="Group_2" data-name="Group 2" transform="translate(0 0)">
+                  <path id="Path_6" data-name="Path 6" d="M126.328,59.3H19.46a1.058,1.058,0,0,1-1.06-1.06V20.4a1.058,1.058,0,0,1,1.06-1.06H43.376a.334.334,0,0,1,.3.454l-1.06,2.687a.3.3,0,0,1-.3.189H22.071a.339.339,0,0,0-.341.341V55.667a.339.339,0,0,0,.341.341H123.717a.339.339,0,0,0,.341-.341v-32.7a.339.339,0,0,0-.341-.341H54.8a.334.334,0,0,1-.3-.454l1.211-2.687a.3.3,0,0,1,.3-.189h70.312a1.058,1.058,0,0,1,1.06,1.06V58.2A1.091,1.091,0,0,1,126.328,59.3Z" transform="translate(-18.4 -19.3)" fill="white"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="header-text">
+          <h1 class="header-title">SLA Calculator</h1>
+          <p class="header-subtitle">Calculate your estimated Service Level Agreement time</p>
+        </div>
+      </div>
+    </header>
+    
+    <main class="form-container">
+      <section class="form-section">
+        <h2 class="section-title">
+          <span class="material-icons">settings</span>
+          Project Parameters
+        </h2>
+        
+        <form class="sla-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for='requestType'>Request Type</label>
+              <select class="form-select" id='requestType'>
+                <option value=''>Select a request type...</option>
+                <option value='Registration'>Registration</option>
+                <option value='Registration + Verification (PDMR)'>Registration + Verification (PDMR)</option>
+                <option value='Registration + Verification (PD + MR)'>Registration + Verification (PD + MR)</option>
+                <option value='Verification'>Verification</option>
+                <option value='Withdrawal'>Withdrawal</option>
+                <option value='Exemption'>Exemption</option>
+                <option value='Pipeline Listing (Not used in Project Tracker SLA)'>Pipeline Listing (Not used in Project Tracker SLA)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for='program'>Program Type</label>
+              <select class="form-select" id='program'>
+                <option value=''>Select a program type...</option>
+                <option value='VCS'>VCS</option>
+                <option value='VCS + SD VISta'>VCS + SD VISta</option>
+                <option value='VCS + SD VISta + CCB'>VCS + SD VISta + CCB</option>
+                <option value='VCS + CCB'>VCS + CCB</option>
+                <option value='SD VISta'>SD VISta</option>
+                <option value='SD VISta + CCB'>SD VISta + CCB</option>
+                <option value='CCB'>CCB</option>
+                <option value='Plastic'>Plastic</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for='methodology'>Methodology</label>
+              <div class="methodology-selector">
+                <button type="button" class="methodology-selector-btn" onclick="openMethodologyModal()">
+                  <span class="methodology-selected-count" id="methodologySelectedCount">No methodologies selected</span>
+                  <span class="material-icons">expand_more</span>
+                </button>
+                <div class="methodology-selected-tags" id="methodologySelectedTags"></div>
+              </div>
+            </div>
+          </div>
+
+          
+
+
+
+          <!-- Additional Information Section -->
+          <div class="form-section" style="margin-top: 60px;">
+            <h3 class="section-title">
+              <span class="material-icons">info</span>
+              Additional Information
+            </h3>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Is there a deviation in PD or Methodology?</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option">
+                    <input type="checkbox" name="deviationType" value="PD Deviation" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">PD Deviation</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" name="deviationType" value="Methodology Deviation" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">Methodology Deviation</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Is Project Nested or Grouped?</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option">
+                    <input type="checkbox" name="projectType" value="Nested" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">Project is Nested</span>
+                  </label>
+                  <label class="checkbox-option">
+                    <input type="checkbox" name="projectType" value="Grouped" class="checkbox-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">Project is Grouped</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 48px;">
+            <button type='button' class="calculate-button" onclick='calculateSLA()' id="calculateBtn">
+              <span class="material-icons">calculate</span>
+              <span class="button-text">Calculate SLA</span>
+            </button>
+          </div>
+        </form>
+
+        <div class='result-section' id='resultBox' style='display:none;'></div>
+      </section>
+    </main>
+  </div>
+  </div>
+
+  <script>
+    console.log('🚀 Verra SLA Calculator Initialized');
+    console.log('Browser:', navigator.userAgent);
+    console.log('Page loaded at:', new Date().toISOString());
+    
+
+    let slaData = [];
+
+    //TODO: needs API to fetch
+    //Other options is a controller returns this entire page.
+    async function fetchSLAData() {
+      try {
+        console.log('Fetching SLA data from remote server...');
+        const response = await fetch('https://projecthub.verra.org/sla-data.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        slaData = await response.json();
+        console.log('✅ SLA data fetched successfully:', slaData);
+      } catch (error) {
+        console.error('❌ Failed to fetch SLA data. Falling back to static data.', error);
+        slaData = [
+          // VCS Program
+          {"program": "VCS", "requestType": "Registration", "sla": 20},
+          {"program": "VCS", "requestType": "Registration + Verification (PDMR)", "sla": 35},
+          {"program": "VCS", "requestType": "Registration + Verification (PD + MR)", "sla": 40},
+          {"program": "VCS", "requestType": "Verification", "sla": 15},
+          {"program": "VCS", "requestType": "Withdrawal", "sla": 10},
+          {"program": "VCS", "requestType": "Exemption", "sla": 20},
+          
+          // VCS + SD VISta Program
+          {"program": "VCS + SD VISta", "requestType": "Registration", "sla": 25},
+          {"program": "VCS + SD VISta", "requestType": "Verification", "sla": 20},
+          
+          // VCS + SD VISta + CCB Program
+          {"program": "VCS + SD VISta + CCB", "requestType": "Registration", "sla": 35},
+          {"program": "VCS + SD VISta + CCB", "requestType": "Verification", "sla": 30},
+          
+          // VCS + CCB Program
+          {"program": "VCS + CCB", "requestType": "Registration", "sla": 30},
+          {"program": "VCS + CCB", "requestType": "Verification", "sla": 25},
+          
+          // SD VISta Program
+          {"program": "SD VISta", "requestType": "Registration", "sla": 25},
+          
+          {"program": "SD VISta", "requestType": "Verification", "sla": 20},
+          
+          // SD VISta + CCB Program
+          {"program": "SD VISta + CCB", "requestType": "Registration", "sla": 35},
+          {"program": "SD VISta + CCB", "requestType": "Verification", "sla": 30},
+          
+          // CCB Program
+          {"program": "CCB", "requestType": "Registration", "sla": 30},
+          {"program": "CCB", "requestType": "Verification", "sla": 25},
+          
+          // Plastic Program
+          {"program": "Plastic", "requestType": "Registration", "sla": 35},
+          {"program": "Plastic", "requestType": "Verification", "sla": 30}
+        ];
+      }
+    }
+
+    // Fetch SLA data on page load
+    fetchSLAData();
+
+    function calculateSLA() {
+      console.log('=== SLA Calculation Started ===');
+      
+      // Clear any existing field errors
+      clearAllFieldErrors();
+      
+      // Get form values
+      const program = document.getElementById('program').value;
+      const requestType = document.getElementById('requestType').value;
+      const methodologies = getSelectedMethodology(); // Get array of selected methodologies
+      
+      console.log('Form values retrieved:');
+      console.log('- Program element found:', document.getElementById('program') !== null);
+      console.log('- Program value:', program);
+      console.log('- RequestType element found:', document.getElementById('requestType') !== null);
+      console.log('- RequestType value:', requestType);
+      console.log('- Methodologies:', methodologies);
+
+      // Identify methodology types first (before using in validation)
+      const methodologyTypes = identifyMethodologyTypes(methodologies);
+      const methodologyTypesDisplay = formatMethodologyTypesDisplay(methodologyTypes);
+      
+      // Get checkbox values
+      const deviationCheckboxes = document.querySelectorAll('input[name="deviationType"]:checked');
+      const deviationTypes = Array.from(deviationCheckboxes).map(cb => cb.value);
+      const hasDeviation = deviationTypes.length > 0 ? 'Yes' : 'No';
+      const projectTypeCheckboxes = document.querySelectorAll('input[name="projectType"]:checked');
+      const projectTypes = Array.from(projectTypeCheckboxes).map(cb => cb.value);
+      const isGroupedNested = projectTypes.length > 0 ? 'Yes' : 'No';
+
+      // Calculate SLA Multiplier - additive approach starting from 1.0, capped at maximum of 1.5
+      let calculatedMultiplier = 1.0; // Default value
+      
+      // Add 0.5 for CCB + SD VISta program combinations
+      if (program === 'VCS + SD VISta + CCB' || 
+          program === 'SD VISta + CCB') {
+        calculatedMultiplier += 0.5;
+      }
+      
+      // Add 0.25 if 2 or more methodologies are selected
+      if (methodologies.length >= 2) {
+        calculatedMultiplier += 0.25;
+      }
+      
+      // Add 0.25 for each deviation type selected
+      if (deviationTypes.includes('PD Deviation')) {
+        calculatedMultiplier += 0.25;
+      }
+      if (deviationTypes.includes('Methodology Deviation')) {
+        calculatedMultiplier += 0.25;
+      }
+      
+      // Add 0.25 for each project type selected
+      if (projectTypes.includes('Grouped')) {
+        calculatedMultiplier += 0.25;
+      }
+      if (projectTypes.includes('Nested')) {
+        calculatedMultiplier += 0.25;
+      }
+      
+      // Add 0.25 for each complex methodology selected
+      const complexMethodologies = getComplexMethodologies(methodologies);
+      calculatedMultiplier += complexMethodologies.length * 0.25;
+      
+      // Special combination rules: Request Type + Methodology Type + Program Type
+      const hasNCS = methodologyTypes.ncs.length > 0;
+      const hasEI = methodologyTypes.ei.length > 0;
+      const hasPlastic = methodologyTypes.plastic.length > 0;
+      
+      // Apply additional multipliers for specific combinations
+      if ((requestType === 'Exemption' && hasNCS && program === 'VCS + SD VISta') ||
+          (requestType === 'Registration' && hasEI && program === 'SD VISta') ||
+          (requestType === 'Registration' && hasEI && program === 'VCS + SD VISta') ||
+          (requestType === 'Registration' && hasNCS && program === 'CCB') ||
+          (requestType === 'Registration' && hasNCS && program === 'SD VISta') ||
+          (requestType === 'Registration' && hasNCS && program === 'VCS + CCB') ||
+          (requestType === 'Registration' && hasNCS && program === 'VCS + SD VISta') ||
+          (requestType === 'Registration' && hasPlastic && isGroupedNested === 'Yes') ||
+          (requestType === 'Verification' && hasEI && program === 'SD VISta') ||
+          (requestType === 'Verification' && hasEI && program === 'VCS + SD VISta') ||
+          (requestType === 'Verification' && hasNCS && program === 'CCB') ||
+          (requestType === 'Verification' && hasNCS && program === 'SD VISta') ||
+          (requestType === 'Verification' && hasNCS && program === 'VCS + CCB') ||
+          (requestType === 'Verification' && hasNCS && program === 'VCS + SD VISta')) {
+        calculatedMultiplier += 0.25;
+        console.log('Special combination detected - adding 0.25 to multiplier');
+      }
+      
+      // Ensure multiplier never exceeds 1.5
+      const slaMultiplier = Math.min(calculatedMultiplier, 1.5);
+
+      // Validate required inputs and show field-level errors
+      let hasErrors = false;
+      
+      if (!program) {
+        showFieldError('program', 'Please select a program type');
+        hasErrors = true;
+      }
+      
+      if (!requestType) {
+        showFieldError('requestType', 'Please select a request type');
+        hasErrors = true;
+      }
+      
+      if (methodologies.length === 0) {
+        // For methodology, we need to target the methodology button differently
+        const methodologyGroup = document.querySelector('.methodology-selector').closest('.form-group');
+        methodologyGroup.classList.add('has-error');
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.innerHTML = `<span class="material-icons">error</span>Please select at least one methodology`;
+        
+        const button = methodologyGroup.querySelector('.methodology-selector-btn');
+        button.parentNode.insertBefore(errorDiv, button.nextSibling);
+        hasErrors = true;
+      }
+      
+      // Note: Deviation selection is now optional since checkboxes can be left unchecked
+      // This represents "No deviation" when no checkboxes are selected
+      
+      // Note: Grouped/Nested selection is now optional since checkbox can be left unchecked
+      // This represents "Not grouped/nested" when checkbox is not selected
+
+      // Log input parameters
+      console.log('Input Parameters:', {
+        program,
+        requestType,
+        methodologies,
+        hasDeviation,
+        isGroupedNested,
+        hasErrors
+      });
+
+      // If there are validation errors, don't proceed with calculation
+      if (hasErrors) {
+        console.log('❌ Validation errors found, stopping calculation');
+        
+        // Hide result box if it was previously shown
+        const resultBox = document.getElementById('resultBox');
+        resultBox.style.display = 'none';
+        
+        // Scroll to first error
+        const firstError = document.querySelector('.form-group.has-error');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        return;
+      }
+
+      // Find matching SLA data
+      console.log('Searching for match in SLA data...');
+      console.log('Looking for program:', program, 'requestType:', requestType);
+      console.log('Available programs in data:', [...new Set(slaData.map(row => row.program))]);
+      console.log('Available request types in data:', [...new Set(slaData.map(row => row.requestType))]);
+      
+      const match = slaData.find(row =>
+        row.program === program &&
+        row.requestType === requestType
+      );
+
+      console.log('Match found:', match);
+      console.log('Total SLA data entries:', slaData.length);
+
+      const resultBox = document.getElementById('resultBox');
+      resultBox.style.display = 'block';
+
+      if (match) {
+        console.log('✅ SLA calculation successful');
+        console.log('Result details:', {
+          sla: match.sla,
+          historicalAverage: match.sla + 2
+        });
+
+        // Format methodologies for display with individual types
+        const methodologyDisplay = formatMethodologiesWithTypes(methodologies);
+
+        // Calculate complexity factor (example logic)
+        const complexityFactor = methodologies.length > 2 ? 'High' : methodologies.length > 1 ? 'Medium' : 'Low';
+        
+        // Determine complexity level based on SLA multiplier
+        let complexityLevel = 'Regular';
+        if (slaMultiplier === 1.25) {
+          complexityLevel = 'High';
+        } else if (slaMultiplier === 1.50) {
+          complexityLevel = 'Very High';
+        }
+        
+        resultBox.innerHTML = `
+          <div class="result-title">
+            <span class="material-icons">check_circle</span>
+            SLA Calculation Results
+          </div>
+          
+          <!-- Input Summary Section -->
+          <div style="background: #f8f9fa; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+            <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: 16px; font-weight: 600;">
+              <span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">summarize</span>
+              Input Summary
+            </h4>
+            <div class="result-grid" style="gap: 8px;">
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Program Type</span>
+                <span class="result-value">${program}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Request Type</span>
+                <span class="result-value">${requestType}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Selected Methodologies</span>
+                <span class="result-value">${methodologyDisplay}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Has Deviation</span>
+                <span class="result-value">
+                  <span class="badge ${hasDeviation === 'Yes' ? 'badge-high' : 'badge-low'}">${hasDeviation}</span>
+                </span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Grouped/Nested Project</span>
+                <span class="result-value">
+                  <span class="badge ${isGroupedNested === 'Yes' ? 'badge-medium' : 'badge-low'}">${isGroupedNested}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLA Results Section -->
+          <div style="background: linear-gradient(135deg, #e8f5e8 0%, #f0f9ff 100%); border-radius: 8px; padding: 16px; border-left: 4px solid var(--success);">
+            <h4 style="margin: 0 0 12px 0; color: var(--success); font-size: 16px; font-weight: 600;">
+              <span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">schedule</span>
+              Service Level Agreement Times
+            </h4>
+            <div class="result-grid">
+              <div class="result-item">
+                <span class="result-label">Base SLA Time</span>
+                <span class="result-value sla-days">${match.sla} days</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Estimated SLA</span>
+                <span class="result-value sla-days">${Math.round(match.sla * slaMultiplier)} days</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Historical Average</span>
+                <span class="result-value">${match.sla + 2} days</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">SLA Multiplier</span>
+                <span class="result-value">${slaMultiplier}x</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Complexity</span>
+                <span class="result-value">
+                  <span class="badge badge-${complexityLevel === 'Regular' ? 'low' : complexityLevel === 'High' ? 'medium' : 'high'}">${complexityLevel}</span>
+                </span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Estimated Range</span>
+                <span class="result-value">${Math.max(1, match.sla - 3)} - ${match.sla + 5} days</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border-radius: 6px; border: 1px solid rgba(22, 114, 154, 0.2);">
+            <p style="margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.4;">
+              <span class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</span>
+              <strong>Note:</strong> SLA times are estimates based on historical data and project complexity. 
+              Actual processing times may vary depending on submission quality, review complexity, and current workload.
+            </p>
+          </div>
+        `;
+      } else {
+        console.log('❌ No matching SLA data found');
+        console.log('Available combinations for program:', program);
+        
+        // Log available combinations for debugging
+        const availableForProgram = slaData.filter(row => row.program === program);
+        console.log('Available entries for this program:', availableForProgram.length);
+        
+        if (availableForProgram.length > 0) {
+          console.log('Sample entries:', availableForProgram.slice(0, 3));
+        }
+
+        // Format methodologies for display in error case with individual types
+        const methodologyDisplay = formatMethodologiesWithTypes(methodologies);
+
+        resultBox.innerHTML = `
+          <!-- Input Summary Section (Error Case) -->
+          <div style="background: #fff3cd; border-radius: 8px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--warning);">
+            <h4 style="margin: 0 0 12px 0; color: var(--warning); font-size: 16px; font-weight: 600;">
+              <span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">summarize</span>
+              Your Input Summary
+            </h4>
+            <div class="result-grid" style="gap: 8px;">
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Program Type</span>
+                <span class="result-value">${program}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Request Type</span>
+                <span class="result-value">${requestType}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Methodologies</span>
+                <span class="result-value">${methodologyDisplay}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Deviation Types</span>
+                <span class="result-value">${deviationTypes.length > 0 ? deviationTypes.join(', ') : 'None'}</span>
+              </div>
+              <div class="result-item" style="padding: 8px 12px;">
+                <span class="result-label">Project Type</span>
+                <span class="result-value">${projectTypes.length > 0 ? projectTypes.join(', ') : 'Standard'}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="no-result">
+            <div class="no-result-title">
+              <span class="material-icons">error</span>
+              No SLA Data Found
+            </div>
+            <p class="no-result-message">
+              No matching SLA data found for the selected combination of <strong>${program}</strong> and <strong>${requestType}</strong>. 
+              Please verify your inputs or contact support for assistance.<br>
+              <small>Check the browser console for detailed debugging information.</small>
+            </p>
+          </div>
+        `;
+      }
+      
+      console.log('=== SLA Calculation Completed ===');
+    }
+
+    // Function to get individual methodology type
+    function getMethodologyType(methodology) {
+      const methCode = methodology.toUpperCase();
+      
+      // NCS (Nature Climate Solutions) methodologies
+      if (methCode.includes('VM0001') || // Afforestation/Reforestation
+          methCode.includes('VM0003') || // Tidal Wetland and Seagrass Restoration
+          methCode.includes('VM0007') || // REDD+ Methodology Framework
+          methCode.includes('VM0009') || // Avoided Ecosystem Conversion
+          methCode.includes('VM0015') || // Wetlands Restoration and Conservation
+          methCode.includes('VM0017') || // Adoption of Sustainable Agricultural Land Management
+          methCode.includes('VM0026') || // Methodology for Sustainable Grassland Management
+          methCode.includes('VM0032') || // Methodology for Adoption of Sustainable Grasslands
+          methCode.includes('VM0042') || // Methodology for Improved Forest Management
+          methCode.includes('ACoGS') ||  // Approved Consensus of Group Standard for REDD+
+          methCode.includes('AR-AM') ||  // Approved Afforestation and Reforestation Methodology
+          methCode.includes('REDD')) {   // Any REDD methodology
+        return 'NCS';
+      }
+      // Plastic methodologies
+      else if (methCode.includes('PLASTIC') ||
+               methCode.includes('PM0001') ||
+               methCode.includes('PM0002') ||
+               methCode.includes('WASTE PLASTIC') ||
+               methCode.includes('OCEAN PLASTIC')) {
+        return 'Plastic';
+      }
+      // Energy & Industrial (E&I) methodologies - default for others
+      else {
+        return 'E&I';
+      }
+    }
+
+    // Function to format methodologies with individual types
+    function formatMethodologiesWithTypes(methodologies) {
+      if (methodologies.length === 0) {
+        return 'None selected';
+      }
+      
+      return methodologies.map(methodology => {
+        const type = getMethodologyType(methodology);
+        return `${methodology} (${type})`;
+      }).join(', ');
+    }
+    function identifyMethodologyTypes(methodologies) {
+      const methodologyTypes = {
+        ncs: [],
+        ei: [],
+        plastic: []
+      };
+      
+      methodologies.forEach(methodology => {
+        const methCode = methodology.toUpperCase();
+        
+        // NCS (Nature Climate Solutions) methodologies
+        if (methCode.includes('VM0001') || // Afforestation/Reforestation
+            methCode.includes('VM0003') || // Tidal Wetland and Seagrass Restoration
+            methCode.includes('VM0007') || // REDD+ Methodology Framework
+            methCode.includes('VM0009') || // Avoided Ecosystem Conversion
+            methCode.includes('VM0015') || // Wetlands Restoration and Conservation
+            methCode.includes('VM0017') || // Adoption of Sustainable Agricultural Land Management
+            methCode.includes('VM0026') || // Methodology for Sustainable Grassland Management
+            methCode.includes('VM0032') || // Methodology for Adoption of Sustainable Grasslands
+            methCode.includes('VM0042') || // Methodology for Improved Forest Management
+            methCode.includes('ACoGS') ||  // Approved Consensus of Group Standard for REDD+
+            methCode.includes('AR-AM') ||  // Approved Afforestation and Reforestation Methodology
+            methCode.includes('REDD')) {   // Any REDD methodology
+          methodologyTypes.ncs.push(methodology);
+        }
+        // Energy & Industrial (E&I) methodologies  
+        else if (methCode.includes('VM0006') || // Manure Management Systems
+                 methCode.includes('VM0008') || // CO2 Capture and Storage
+                 methCode.includes('VM0010') || // Energy Efficiency
+                 methCode.includes('VM0011') || // Renewable Energy
+                 methCode.includes('VM0018') || // Energy Efficiency and Fuel Switching
+                 methCode.includes('VM0021') || // Soil Carbon Quantification
+                 methCode.includes('VM0024') || // Methodology for Livestock
+                 methCode.includes('VM0030') || // Improved Cook Stoves
+                 methCode.includes('AM0001') || // Incineration of HFC
+                 methCode.includes('AM0025') || // Avoided emissions from organic waste
+                 methCode.includes('ACM') ||    // Any Approved Consolidated Methodology
+                 methCode.includes('AMS')) {    // Any Approved Methodology for Small-scale
+          methodologyTypes.ei.push(methodology);
+        }
+        // Plastic methodologies
+        else if (methCode.includes('PLASTIC') ||
+                 methCode.includes('PM0001') ||
+                 methCode.includes('PM0002') ||
+                 methCode.includes('WASTE PLASTIC') ||
+                 methCode.includes('OCEAN PLASTIC')) {
+          methodologyTypes.plastic.push(methodology);
+        }
+        // Default to E&I if not clearly identified
+        else {
+          methodologyTypes.ei.push(methodology);
+        }
+      });
+      
+      return methodologyTypes;
+    }
+
+    // Function to format methodology types for display
+    function formatMethodologyTypesDisplay(methodologyTypes) {
+      const parts = [];
+      
+      if (methodologyTypes.ncs.length > 0) {
+        parts.push(`NCS (${methodologyTypes.ncs.length})`);
+      }
+      if (methodologyTypes.ei.length > 0) {
+        parts.push(`E&I (${methodologyTypes.ei.length})`);
+      }
+      if (methodologyTypes.plastic.length > 0) {
+        parts.push(`Plastic (${methodologyTypes.plastic.length})`);
+      }
+      
+      return parts.length > 0 ? parts.join(', ') : 'None identified';
+    }
+
+    // Function to identify complex methodologies that add 0.25 to SLA multiplier
+    function getComplexMethodologies(methodologies) {
+      const complexMethodologyList = [
+        'ACM0008', 'ACM0010', 'ACM0016', 'ACM0017', 'ACM0022',
+        'AM0073', 'AM0080',
+        'AMS III.C', 'AMS III.D', 'AMS III.S', 'AMS III-Y',
+        'VM0005', 'VM0006', 'VM0038', 'VM0041', 'VM0044', 'VM0045', 
+        'VM0047', 'VM0048', 'VM0049', 'VM0051',
+        'SDVM1', 'SDVM2'
+      ];
+      
+      return methodologies.filter(methodology => {
+        const methCode = methodology.toUpperCase();
+        return complexMethodologyList.some(complex => methCode.includes(complex.toUpperCase()));
+      });
+    }
+
+    function getSelectedMethodology() {
+      console.log('getSelectedMethodology called');
+      const checkboxes = document.querySelectorAll('#methodologyOptionsList input[type="checkbox"]:checked');
+      console.log('Found checkboxes:', checkboxes.length);
+      const selected = [];
+      checkboxes.forEach(checkbox => {
+        const value = checkbox.closest('.methodology-option-item').dataset.value;
+        console.log('Checkbox value:', value);
+        if (value) {
+          selected.push(value);
+        }
+      });
+      console.log('Selected methodologies:', selected);
+      return selected;
+    }
+
+    // Modal functionality
+    function openMethodologyModal() {
+      console.log('🔄 Opening methodology modal');
+      const modal = document.getElementById('methodologyModal');
+      modal.classList.add('active');
+      
+      // Sync checkboxes with current selection
+      syncModalCheckboxes();
+      
+      // Focus search input
+      setTimeout(() => {
+        document.getElementById('methodologySearch').focus();
+      }, 100);
+    }
+
+    function closeMethodologyModal() {
+      console.log('🔄 Closing methodology modal');
+      const modal = document.getElementById('methodologyModal');
+      modal.classList.remove('active');
+    }
+
+    function syncModalCheckboxes() {
+      // Get currently selected methodologies
+      const selectedTags = document.querySelectorAll('.methodology-tag');
+      const selectedValues = [];
+      selectedTags.forEach(tag => {
+        const value = tag.dataset.value;
+        if (value) selectedValues.push(value);
+      });
+
+      // Update modal checkboxes
+      const checkboxes = document.querySelectorAll('#methodologyOptionsList input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        const value = checkbox.closest('.methodology-option-item').dataset.value;
+        checkbox.checked = selectedValues.includes(value);
+      });
+    }
+
+    function applyMethodologySelection() {
+      console.log('🔄 Applying methodology selection');
+      updateMethodologyDisplay();
+      closeMethodologyModal();
+    }
+
+    function clearAllMethodologies() {
+      console.log('🔄 Clearing all methodologies');
+      const checkboxes = document.querySelectorAll('#methodologyOptionsList input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+      });
+    }
+
+    function updateMethodologyDisplay() {
+      console.log('🔄 Updating methodology display');
+      const checkboxes = document.querySelectorAll('#methodologyOptionsList input[type="checkbox"]:checked');
+      const countDisplay = document.getElementById('methodologySelectedCount');
+      const tagsContainer = document.getElementById('methodologySelectedTags');
+      
+      // Clear existing tags
+      tagsContainer.innerHTML = '';
+      
+      if (checkboxes.length === 0) {
+        countDisplay.textContent = 'No methodologies selected';
+        countDisplay.classList.remove('has-selection');
+      } else {
+        countDisplay.textContent = `${checkboxes.length} methodology${checkboxes.length > 1 ? 'ies' : ''} selected`;
+        countDisplay.classList.add('has-selection');
+        
+        // Create tags
+        checkboxes.forEach(checkbox => {
+          const value = checkbox.closest('.methodology-option-item').dataset.value;
+          const tag = document.createElement('span');
+          tag.className = 'methodology-tag';
+          tag.dataset.value = value;
+          tag.innerHTML = `${value} <span onclick="removeMethodologyTag('${value}')" class="remove">×</span>`;
+          tagsContainer.appendChild(tag);
+        });
+      }
+    }
+
+    function removeMethodologyTag(value) {
+      console.log('🔄 Removing methodology tag:', value);
+      const checkbox = document.querySelector(`#methodologyOptionsList .methodology-option-item[data-value="${value}"] input`);
+      if (checkbox) {
+        checkbox.checked = false;
+        updateMethodologyDisplay();
+      }
+    }
+
+    function filterMethodologies() {
+      const searchTerm = document.getElementById('methodologySearch').value.toLowerCase();
+      const options = document.querySelectorAll('.methodology-option-item');
+      
+      options.forEach(option => {
+        const label = option.querySelector('label').textContent.toLowerCase();
+        if (label.includes(searchTerm)) {
+          option.classList.remove('hidden');
+        } else {
+          option.classList.add('hidden');
+        }
+      });
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Initializing methodology modal...');
+      
+      // Add search functionality
+      const searchInput = document.getElementById('methodologySearch');
+      searchInput.addEventListener('input', filterMethodologies);
+      
+      // Add change handlers to modal checkboxes
+      const checkboxes = document.querySelectorAll('#methodologyOptionsList input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          console.log('Checkbox changed:', this.checked, this.closest('.methodology-option-item').dataset.value);
+        });
+      });
+      
+      // Close modal when clicking overlay
+      const modal = document.getElementById('methodologyModal');
+      const overlay = modal.querySelector('.methodology-modal-overlay');
+      overlay.addEventListener('click', closeMethodologyModal);
+      
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeMethodologyModal();
+        }
+      });
+      
+      console.log('✅ Methodology modal initialized');
+    });
+
+    // Field validation functions
+    function showFieldError(fieldId, message) {
+      const formGroup = document.querySelector(`#${fieldId}`).closest('.form-group');
+      
+      // Remove existing error
+      clearFieldError(fieldId);
+      
+      // Add error class
+      formGroup.classList.add('has-error');
+      
+      // Create error message
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'field-error';
+      errorDiv.innerHTML = `<span class="material-icons">error</span>${message}`;
+      
+      // Insert after the input/button
+      const input = formGroup.querySelector('.form-select, .methodology-selector-btn');
+      input.parentNode.insertBefore(errorDiv, input.nextSibling);
+    }
+
+    function clearFieldError(fieldId) {
+      const formGroup = document.querySelector(`#${fieldId}`).closest('.form-group');
+      formGroup.classList.remove('has-error');
+      
+      const existingError = formGroup.querySelector('.field-error');
+      if (existingError) {
+        existingError.remove();
+      }
+    }
+
+    function clearAllFieldErrors() {
+      const allFormGroups = document.querySelectorAll('.form-group');
+      allFormGroups.forEach(group => {
+        group.classList.remove('has-error');
+        const error = group.querySelector('.field-error');
+        if (error) error.remove();
+      });
+    }
+  </script>
+</body>
+</html>
